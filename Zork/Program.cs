@@ -11,8 +11,8 @@ namespace Zork
             bool isRunning = true;
             while (isRunning)
             {
-                Console.Write("> ");
-                string inputstring = Console.ReadLine().Trim().ToUpper();
+                Console.Write($"{Rooms[currentRoom]}\n> ");
+                string inputstring = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputstring);
 
                 string outputString;
@@ -31,7 +31,14 @@ namespace Zork
                     case Commands.SOUTH:
                     case Commands.WEST:
                     case Commands.EAST:
-                        outputString = $"You moved {command.ToString()}.";
+                        if (Move(command))
+                        {
+                            outputString = $"You moved {command}.";
+                        }
+                        else
+                        {
+                            outputString = "The way is shut!";
+                        }
                         break;
 
                     default:
@@ -44,5 +51,37 @@ namespace Zork
         }
 
         static Commands ToCommand(string commandString) => Enum.TryParse<Commands>(commandString, true, out Commands command) ? command : Commands.UNKNOWN;
+
+        private static bool Move(Commands command)
+        {
+            bool didMove;
+
+            switch (command)
+            {
+                case Commands.NORTH:
+                case Commands.SOUTH:
+                    didMove = false;
+                    break;
+
+                case Commands.WEST when currentRoom > 0:
+                    currentRoom--;
+                    didMove = true;
+                    break;
+
+                case Commands.EAST when currentRoom < Rooms.Length - 1:
+                    currentRoom++;
+                    didMove = true;
+                    break;
+
+                default:
+                    didMove = false;
+                    break;
+            }
+
+            return didMove;
+        }
+
+        private static string[] Rooms = { "Forest", "West of House", "Behind House", "Clearing", "Canyon View" };
+        private static int currentRoom = 1;
     }
 }
