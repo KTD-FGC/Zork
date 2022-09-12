@@ -99,6 +99,21 @@ namespace Zork
             return didMove;
         }
 
+        private static void InitializeRoomDescriptions()
+        {
+            Rooms[0, 0].Description = ",";
+            Rooms[0, 1].Description = ",";
+            Rooms[0, 2].Description = ",";
+
+            Rooms[1, 0].Description = ",";
+            Rooms[1, 1].Description = ",";
+            Rooms[1, 2].Description = ",";
+
+            Rooms[2, 0].Description = ",";
+            Rooms[2, 1].Description = ",";
+            Rooms[2, 2].Description = ",";
+        }
+
         private static readonly Room[,] Rooms = {
             { new Room ("Rocky Trail"), new Room ("South of House"), new Room("Canyon View") },
             {new Room ("Forest"), new Room ("West of House"), new Room ("Behind House") },
