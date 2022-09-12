@@ -4,14 +4,27 @@ namespace Zork
 {
     class Program
     {
+        private static Room CurrentRoom
+        {
+            get
+            {
+                return Rooms[_location.Row, _location.Column];
+            }
+        }
+
         static void Main(string[] args)
         {
+            Room westOfHouse = new Room("WestOfHouse");
+
+            Console.WriteLine(westOfHouse.Name);
+            Console.WriteLine(westOfHouse.Description);
+
             Console.WriteLine("Welcome to Zork");
 
             bool isRunning = true;
             while (isRunning)
             {
-                Console.Write($"{Rooms[_location.Row, _location.Column]}\n> ");
+                Console.Write($"{CurrentRoom}\n ");
                 string inputstring = Console.ReadLine().Trim();
                 Commands command = ToCommand(inputstring);
 
@@ -24,7 +37,7 @@ namespace Zork
                         break;
 
                     case Commands.LOOK:
-                        outputString = "This is an open field west of a white house, with a boarded front door.\nA rubber mat saying 'Welcome to Zork!' lies by the door.";
+                        outputString = CurrentRoom.Description;
                         break;
 
                     case Commands.NORTH:
@@ -86,18 +99,12 @@ namespace Zork
             return didMove;
         }
 
-        private static readonly string[,] Rooms = {
-            { "Rocky Trail", "South of House", "Canyon View" },
-            {"Forest", "West of House", "Behind House"},
-            {"Dense Woods", "North of House", "Clearing" }
+        private static readonly Room[,] Rooms = {
+            { new Room ("Rocky Trail"), new Room ("South of House"), new Room("Canyon View") },
+            {new Room ("Forest"), new Room ("West of House"), new Room ("Behind House") },
+            {new Room ("Dense Woods"), new Room ("North of House"), new Room ("Clearing") }
         };
-        //private static Location _location = new Location() { Row = 1, Column = 1 };
-        private static (int Row, int Column) _location = (1, 1);
-    }
 
-    internal class Location
-    {
-        //public int Row;
-        //public int Column;
+        private static (int Row, int Column) _location = (1, 1);
     }
 }
