@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
@@ -18,4 +19,6 @@
     </None>
   </ItemGroup>
 
+=======
+>>>>>>> parent of efd8e46 (Zork rooms.txt addition)
 </Project>
