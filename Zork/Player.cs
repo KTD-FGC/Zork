@@ -11,6 +11,10 @@ namespace Zork
             set => _currentRoom = value;
         }
 
+        public int Moves { get; set; }
+
+        public int Score { get; set; }
+
         [JsonIgnore]
         public string LocationName 
         {

@@ -8,6 +8,8 @@
         SOUTH,
         WEST,
         EAST,
-        UNKNOWN
+        UNKNOWN,
+        SCORE,
+        REWARD
     }
 }

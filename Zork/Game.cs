@@ -45,6 +45,7 @@ namespace Zork
 
                     case Commands.LOOK:
                         outputString = Player.CurrentRoom.Description;
+                        Player.Moves++;
                         break;
 
                     case Commands.NORTH:
@@ -60,6 +61,18 @@ namespace Zork
                         {
                             outputString = "The way is shut!";
                         }
+                        Player.Moves++;
+                        break;
+
+                    case Commands.REWARD:
+                        Player.Score++;
+                        outputString = "Your score went up!";
+                        Player.Moves++;
+                        break;
+
+                    case Commands.SCORE:
+                        outputString = $"Your score would be {Player.Score} in {Player.Moves} move(s).";
+                        Player.Moves++;
                         break;
 
                     default:
