@@ -8,10 +8,10 @@ namespace Zork
     public class Room
     {
         [JsonProperty(Order = 1)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
         
         [JsonProperty(Order = 2)]
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         [JsonProperty(PropertyName = "Neighbors", Order = 3)]
         private Dictionary<Directions, string> NeighborNames { get; set; }

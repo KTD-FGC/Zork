@@ -11,6 +11,7 @@ namespace Zork
             set => _currentRoom = value;
         }
 
+        [JsonIgnore]
         public string LocationName 
         {
             get { return CurrentRoom?.Name; } 
@@ -25,7 +26,7 @@ namespace Zork
 
         public bool Move(Directions direction)
         {
-            bool didMove = _currentRoom.Neighbors.TryGetValue(direction, out Room neighbor);
+            bool didMove = CurrentRoom.Neighbors.TryGetValue(direction, out Room neighbor);
             if (didMove)
             {
                 CurrentRoom = neighbor;
