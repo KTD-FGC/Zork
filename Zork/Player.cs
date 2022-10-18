@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 namespace Zork
 {
     public class Player
@@ -9,11 +11,16 @@ namespace Zork
             set => _currentRoom = value;
         }
 
+        public string LocationName 
+        {
+            get { return CurrentRoom?.Name; } 
+            set { CurrentRoom = _world.RoomsByName.GetValueOrDefault(value); }
+        }
+
         public Player(World world, string startingLocation)
         {
             _world = world;
-
-            //throw new Exception($"Invalid starting location: {startingLocation}");
+            LocationName = startingLocation;
         }
 
         public bool Move(Directions direction)
