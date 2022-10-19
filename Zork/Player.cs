@@ -11,6 +11,8 @@ namespace Zork
             set => _currentRoom = value;
         }
 
+        public List<Item> Inventory { get; }
+
         public int Moves { get; set; }
 
         public int Score { get; set; }
@@ -38,6 +40,8 @@ namespace Zork
 
             return didMove;
         }
+
+
 
         private World _world;
         private Room _currentRoom;
