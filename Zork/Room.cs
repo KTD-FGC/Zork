@@ -24,7 +24,7 @@ namespace Zork
         public List<Item> Inventory { get; private set; }
 
         [JsonProperty("Inventory")]
-        private string[] InventoryNames { get; }
+        private string[] InventoryNames { get; set; }
 
         public bool HasBeenVisited { get; set; }
 
@@ -49,7 +49,7 @@ namespace Zork
 
         public void UpdateInventory(World world)
         {
-            Inventory = new list<Item>();
+            Inventory = new List<Item>();
             foreach (var inventoryName in InventoryNames)
             {
                 Inventory.Add(world.ItemsByName[inventoryName]);
