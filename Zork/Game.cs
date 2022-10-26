@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Security;
 using System.Text;
 
 namespace Zork
@@ -35,22 +37,22 @@ namespace Zork
                 string inputstring = Console.ReadLine().Trim();
                 char separator = ' ';
                 string[] commandTokens = inputstring.Split(separator);
-                string verb = null;
+                Commands command = Commands.UNKNOWN;
                 string subject = null;
-                if (commandTokens.Length == 0)
+                switch (commandTokens.Length)
                 {
-                    continue;
+                    case 0:
+                        continue;
+                    case 1:
+                        command = ToCommand(commandTokens[0]);
+                        break;
+                    case 2:
+                        command = ToCommand(commandTokens[0]);
+                        subject = commandTokens[1];
+                        break;
+                    default:
+                        break;
                 }
-                else if (commandTokens.Length == 1)
-                {
-                    verb = commandTokens[0];
-                }
-                else if (commandTokens.Length == 2)
-                {
-                    verb = commandTokens[0];
-                    subject = commandTokens[1];
-                }
-                Commands command = ToCommand(verb);
 
                 string outputString;
                 switch (command)
