@@ -8,8 +8,11 @@
         SOUTH,
         WEST,
         EAST,
-        UNKNOWN,
         SCORE,
-        REWARD
+        REWARD,
+        INVENTORY,
+        TAKE,
+        DROP,
+        UNKNOWN
     }
 }
