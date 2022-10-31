@@ -41,8 +41,6 @@ namespace Zork
             return didMove;
         }
 
-
-
         private World _world;
         private Room _currentRoom;
     }
