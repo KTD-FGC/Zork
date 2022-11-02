@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Runtime.Serialization;
 
-namespace Zork
+namespace Zork.Common
 {
     public class World
     {
@@ -40,6 +40,7 @@ namespace Zork
             foreach (Room room in Rooms)
             {
                 room.UpdateNeighbors(this);
+                room.UpdateInventory(this);
             }
         }
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace Zork
+namespace Zork.Common
 {
     public class Room
     {
@@ -25,8 +25,6 @@ namespace Zork
 
         [JsonProperty("Inventory")]
         private string[] InventoryNames { get; set; }
-
-        public bool HasBeenVisited { get; set; }
 
         public Room(string name, string description, Dictionary<Directions, string> neighborNames, string[] inventoryNames)
         {

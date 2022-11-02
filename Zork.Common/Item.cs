@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zork
+namespace Zork.Common
 {
     public class Item
     {
@@ -10,13 +10,13 @@ namespace Zork
 
         public string LookDescription { get; }
 
-        public string InventoryDescription { get; }
+        public string InvDescription { get; }
 
-        public Item(string name, string lookDescription, string inventoryDescription)
+        public Item(string name, string lookDescription, string invDescription)
         {
             Name = name;
             LookDescription = lookDescription;
-            InventoryDescription = inventoryDescription;
+            InvDescription = invDescription;
         }
     }
 }

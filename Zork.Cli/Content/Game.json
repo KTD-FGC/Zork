@@ -3,12 +3,14 @@
   "World": {
     "Items": [
       {
-        "Name": "Welcome Mat",
-        "Description": "A rubber mat with the words welcome to Zork written on it"
+        "Name": "Mat",
+        "LookDescription": "A rubber mat with the words 'Welcome to Zork!' written on it lies here.",
+        "InvDescription": "A rubber mat with the words 'Welcome to Zork!' written on it."
       },
       {
         "Name": "Mailbox",
-        "Description": "A small mailbox"
+        "LookDescription": "A small mailbox is here.",
+        "InvDescription": "A small mailbox. Hey, why are you holdin' a mailbox, silly???"
       }
     ],
     "Rooms": [
@@ -21,7 +23,8 @@
           "West": "Forest 1"
         },
         "Inventory": [
-
+          "Mat",
+          "Mailbox"
         ]
       },
       {
