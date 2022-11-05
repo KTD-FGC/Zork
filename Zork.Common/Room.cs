@@ -41,8 +41,6 @@ namespace Zork.Common
             {
                 Neighbors.Add(neighborName.Key, world.RoomsByName[neighborName.Value]);
             }
-
-            //NeighborNames = null;
         }
 
         public void UpdateInventory(World world)

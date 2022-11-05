@@ -28,6 +28,7 @@ namespace Zork.Common
         {
             _world = world;
             LocationName = startingLocation;
+            Inventory = new List<Item>();
         }
 
         public bool Move(Directions direction)
@@ -39,6 +40,41 @@ namespace Zork.Common
             }
 
             return didMove;
+        }
+
+        public string AddToInv(Item item)
+        {
+            if (CurrentRoom.Inventory.Count == 0)
+            {
+                return "There is nothing here.\n";
+            }
+            else if (item == null || !CurrentRoom.Inventory.Contains(item))
+            {
+                return "I can see no such thing.\n";
+            }
+            else
+            {
+                Inventory.Add(item);
+                CurrentRoom.Inventory.Remove(item);
+                return "Taken.\n";
+            }
+        }
+        public string RemoveFromInv(Item item)
+        {
+            if (Inventory.Count == 0)
+            {
+                return "You are empty handed.\n";
+            }
+            else if (item == null || !Inventory.Contains(item))
+            {
+                return "You are not holding that.\n";
+            }
+            else
+            {
+                Inventory.Remove(item);
+                CurrentRoom.Inventory.Add(item);
+                return "Dropped.\n";
+            }
         }
 
         private World _world;

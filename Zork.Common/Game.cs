@@ -36,7 +36,7 @@ namespace Zork.Common
         private void Input_InputReceived(object sender, string inputString)
         {
             PreviousRoom = Player.CurrentRoom;
-            char separator = ' ';
+            const char separator = ' ';
             string[] commandTokens = inputString.Split(separator);
             Commands command = Commands.UNKNOWN;
             string subject = null;
@@ -55,6 +55,11 @@ namespace Zork.Common
                     break;
             }
 
+            Item theItem = null;
+            if (subject != null && World.ItemsByName.TryGetValue(subject, out Item i))
+            {
+                theItem = i;
+            }
             StringBuilder sb = new StringBuilder();
             string outputString;
             switch (command)
@@ -102,15 +107,43 @@ namespace Zork.Common
                     break;
 
                 case Commands.DROP:
-                    outputString = null;
+                    if (subject == null)
+                    {
+                        outputString = "What do you want to drop?";
+                    }
+                    else
+                    {
+                        outputString = Player.RemoveFromInv(theItem);
+                    }
                     break;
 
                 case Commands.TAKE:
-                    outputString = null;
+                    if (subject == null)
+                    {
+                        outputString = "What do you want to take?";
+                    }
+                    else
+                    {
+                        outputString = Player.AddToInv(theItem);
+                    }
                     break;
 
                 case Commands.INVENTORY:
-                    outputString = null;
+                    
+                    if (Player.Inventory != null)
+                    {
+                        sb.Append("Inventory:\n");
+                        foreach (Item item in Player.Inventory)
+                        {
+                            sb.Append($"{item.InvDescription}\n");
+                        }
+                        outputString = sb.ToString();
+                        
+                    }
+                    else
+                    {
+                        outputString = "You are empty handed.\n";
+                    }
                     break;
 
                 default:
