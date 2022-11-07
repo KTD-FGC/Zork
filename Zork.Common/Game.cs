@@ -25,13 +25,13 @@ namespace Zork.Common
 
         public void Run(IInputService input, IOutputService output)
         {
-            Output = output;
-            Input = input;
-            IsRunning = true;
-            Input.InputReceived += Input_InputReceived;
-
-
+            Output = output ?? throw new ArgumentNullException(nameof(output));
+            Input = input ?? throw new ArgumentNullException(nameof(input)); ;
             
+            Input.InputReceived += Input_InputReceived;
+            IsRunning = true;
+            Output.WriteLine(Player.CurrentRoom);
+            Output.WriteLine(Player.CurrentRoom.Description);
         }
         private void Input_InputReceived(object sender, string inputString)
         {
