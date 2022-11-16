@@ -8,10 +8,10 @@ using Zork.Common;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    private UnityInputService Input;
+    private UnityInputService InputService;
     
     [SerializeField]
-    private UnityOutputService Output;
+    private UnityOutputService OutputService;
 
     [SerializeField]
     private TextMeshProUGUI Location;
@@ -27,7 +27,26 @@ public class GameManager : MonoBehaviour
         TextAsset gameJson = Resources.Load<TextAsset>("GameJson");
         _game = JsonConvert.DeserializeObject<Game>(gameJson.text);
 
-        _game.Run(Input, Output);
+        _game.Run(InputService, OutputService);
+    }
+
+    private void Start()
+    {
+        InputService.SetFocus();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            InputService.ProcessInput();
+        }
+
+        if (!_game.IsRunning)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
+        }
     }
 
     private Game _game;

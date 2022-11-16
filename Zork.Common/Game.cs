@@ -32,6 +32,7 @@ namespace Zork.Common
             IsRunning = true;
             Output.WriteLine(Player.CurrentRoom);
             Output.WriteLine(Player.CurrentRoom.Description);
+            Output.WriteLine(Player.CurrentRoom.Inventory);
         }
         private void Input_InputReceived(object sender, string inputString)
         {
