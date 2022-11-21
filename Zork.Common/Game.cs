@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text;
 
 namespace Zork.Common
@@ -7,14 +8,18 @@ namespace Zork.Common
     {
         public World World { get; }
 
+        [JsonIgnore]
         public Player Player { get; }
 
+        [JsonIgnore]
         public bool IsRunning { get; private set; }
 
         public Room PreviousRoom { get; private set; }
 
+        [JsonIgnore]
         public IOutputService Output { get; private set; }
 
+        [JsonIgnore]
         public IInputService Input { get; private set; }
 
         public Game(World world, string startingLocation)
@@ -28,11 +33,12 @@ namespace Zork.Common
             Output = output ?? throw new ArgumentNullException(nameof(output));
             Input = input ?? throw new ArgumentNullException(nameof(input)); ;
             
-            Input.InputReceived += Input_InputReceived;
             IsRunning = true;
+            Input.InputReceived += Input_InputReceived;
+            Output.WriteLine("Welcome to Zork");
             Output.WriteLine(Player.CurrentRoom);
-            Output.WriteLine(Player.CurrentRoom.Description);
-            Output.WriteLine(Player.CurrentRoom.Inventory);
+            Look();
+
         }
         private void Input_InputReceived(object sender, string inputString)
         {
@@ -62,24 +68,15 @@ namespace Zork.Common
                 theItem = i;
             }
             StringBuilder sb = new StringBuilder();
-            string outputString;
             switch (command)
             {
                 case Commands.QUIT:
-                    outputString = "Thank you for playing!\n";
+                    Output.WriteLine("Thank you for playing!\n");
                     IsRunning = false;
                     break;
-
                 case Commands.LOOK:
-                    sb.Append($"{Player.CurrentRoom.Description}\n");
-                    foreach (Item item in Player.CurrentRoom.Inventory)
-                    {
-                        sb.Append($"{item.LookDescription}\n");
-                    }
-                    outputString = sb.ToString();
-                    Player.Moves++;
+                    Look();
                     break;
-
                 case Commands.NORTH:
                 case Commands.SOUTH:
                 case Commands.WEST:
@@ -87,50 +84,41 @@ namespace Zork.Common
                     Directions direction = Enum.Parse<Directions>(command.ToString(), true);
                     if (Player.Move(direction))
                     {
-                        outputString = $"You moved {command}.\n";
+                        Output.WriteLine($"You moved {command}.\n");
                     }
                     else
                     {
-                        outputString = "The way is shut!\n";
+                        Output.WriteLine("The way is shut!\n");
                     }
-                    Player.Moves++;
                     break;
-
                 case Commands.REWARD:
                     Player.Score++;
-                    outputString = "Your score went up!\n";
-                    Player.Moves++;
+                    Output.WriteLine("Your score went up!\n");
                     break;
-
                 case Commands.SCORE:
-                    outputString = $"Your score would be {Player.Score} in {Player.Moves} move(s).\n";
-                    Player.Moves++;
+                    Output.WriteLine($"Your score would be {Player.Score} in {Player.Moves} move(s).\n");
                     break;
-
                 case Commands.DROP:
                     if (subject == null)
                     {
-                        outputString = "What do you want to drop?";
+                        Output.WriteLine("What do you want to drop?");
                     }
                     else
                     {
-                        outputString = Player.RemoveFromInv(theItem);
+                        Output.WriteLine(Player.RemoveFromInv(theItem));
                     }
                     break;
-
                 case Commands.TAKE:
                     if (subject == null)
                     {
-                        outputString = "What do you want to take?";
+                        Output.WriteLine("What do you want to take?");
                     }
                     else
                     {
-                        outputString = Player.AddToInv(theItem);
+                        Output.WriteLine(Player.AddToInv(theItem));
                     }
                     break;
-
                 case Commands.INVENTORY:
-                    
                     if (Player.Inventory != null)
                     {
                         sb.Append("Inventory:\n");
@@ -138,21 +126,37 @@ namespace Zork.Common
                         {
                             sb.Append($"{item.InvDescription}\n");
                         }
-                        outputString = sb.ToString();
-                        
+                        Output.WriteLine(sb.ToString());
                     }
                     else
                     {
-                        outputString = "You are empty handed.\n";
+                        Output.WriteLine("You are empty handed.\n");
                     }
                     break;
-
                 default:
-                    outputString = "Unknown command.\n";
+                    Output.WriteLine("Unknown command.\n");
                     break;
             }
 
-            Output.WriteLine(outputString);
+            if (command != Commands.UNKNOWN)
+            {
+                Player.Moves++;
+            }
+
+            Output.WriteLine($"{Player.CurrentRoom}");
+            if (ReferenceEquals(PreviousRoom, Player.CurrentRoom) == false)
+            {
+                Look();
+            }
+        }
+
+        private void Look()
+        {
+            Output.WriteLine(Player.CurrentRoom.Description);
+            foreach (Item item in Player.CurrentRoom.Inventory)
+            {
+                Output.WriteLine(item.LookDescription);
+            }
         }
 
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.UNKNOWN;

@@ -13,13 +13,12 @@ public class UnityInputService : MonoBehaviour, IInputService
 
     public void ProcessInput()
     {
-        if (string.IsNullOrWhiteSpace(InputField.text))
+        if (!string.IsNullOrWhiteSpace(InputField.text))
         {
             InputReceived.Invoke(this, InputField.text.Trim());
         }
 
-        InputField.text = String.Empty;
-
+        InputField.text = string.Empty;
     }
 
     public void SetFocus()

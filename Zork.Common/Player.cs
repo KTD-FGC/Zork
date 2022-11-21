@@ -5,17 +5,60 @@ namespace Zork.Common
 {
     public class Player
     {
+        public event EventHandler<int> MovesChanged;
+
+        public event EventHandler<Room> LocationChanged;
+
+        public event EventHandler<int> ScoreChanged;
+
         public Room CurrentRoom
         {
             get => _currentRoom;
-            set => _currentRoom = value;
+            set
+            {
+                if (_currentRoom != value)
+                {
+                    _currentRoom = value;
+                    LocationChanged?.Invoke(this, CurrentRoom);
+                }
+            }
         }
 
         public List<Item> Inventory { get; }
 
-        public int Moves { get; set; }
+        public int Moves
+        {
+            get
+            {
+                return _moves;
+            }
 
-        public int Score { get; set; }
+            set
+            {
+                if (_moves != value)
+                {
+                    _moves = value;
+                    MovesChanged?.Invoke(this, _moves);
+                }
+            }
+        }
+
+        public int Score
+        {
+            get
+            {
+                return _score;
+            }
+
+            set
+            {
+                if (_score != value)
+                {
+                    _score = value;
+                    ScoreChanged?.Invoke(this, _score);
+                }
+            }
+        }
 
         [JsonIgnore]
         public string LocationName 
@@ -76,6 +119,9 @@ namespace Zork.Common
                 return "Dropped.\n";
             }
         }
+
+        private int _moves;
+        private int _score;
 
         private World _world;
         private Room _currentRoom;
