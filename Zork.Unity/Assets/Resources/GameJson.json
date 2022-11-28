@@ -24,7 +24,8 @@
         "LivingDescription": "A large, Green Troll stands before you. It holds a large club and is coming to attack you.",
         "DeadDescription": "The dead body of the troll lies here.",
         "PlayerKilledText": "The troll swings his club down onto you, killing you instantly.",
-        "TrollKilledText":  "You attack the troll and strike him down. He lets out a roar as he dies."
+        "TrollKilledText": "You attack the troll and strike him down. He lets out a roar as he dies.",
+        "IsAlive": true
       }
     ],
     "Rooms": [
@@ -41,7 +42,7 @@
           "Mailbox"
         ],
         "Enemies": [
-          "Troll"
+          
         ]
       },
       {
@@ -156,7 +157,7 @@
 
         ],
         "Enemies": [
-
+          "Troll"
         ]
       }
     ]

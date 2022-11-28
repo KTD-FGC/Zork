@@ -159,7 +159,14 @@ namespace Zork.Common
             }
             foreach (Enemy enemy in Player.CurrentRoom.Foes)
             {
-                Output.WriteLine(enemy.LivingDescription);
+                if (enemy.IsAlive == true)
+                {
+                    Output.WriteLine(enemy.LivingDescription);
+                }
+                else if (enemy.IsAlive == false)
+                {
+                    Output.WriteLine(enemy.DeadDescription);
+                }
             }
         }
 

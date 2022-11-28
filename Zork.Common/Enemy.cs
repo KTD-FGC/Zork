@@ -16,13 +16,16 @@ namespace Zork.Common
 
         public string EKText { get; }
 
-        public Enemy (string name, string livingDescription, string deadDescription, string pkText, string ekText)
+        public bool IsAlive { get; set; }
+
+        public Enemy (string name, string livingDescription, string deadDescription, string pkText, string ekText, bool isAlive)
         {
             Name = name;
             LivingDescription = livingDescription;
             DeadDescription = deadDescription;
             PKText = pkText;
             EKText = ekText;
+            IsAlive = isAlive;
         }
     }
 }

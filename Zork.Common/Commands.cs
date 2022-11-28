@@ -16,6 +16,7 @@
         I = INVENTORY,
         TAKE,
         DROP,
+        ATTACK,
         UNKNOWN
     }
 }
