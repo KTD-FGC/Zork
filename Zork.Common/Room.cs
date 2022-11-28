@@ -26,13 +26,21 @@ namespace Zork.Common
         [JsonProperty("Inventory")]
         private string[] InventoryNames { get; set; }
 
-        public Room(string name, string description, Dictionary<Directions, string> neighborNames, string[] inventoryNames)
+        [JsonIgnore]
+        public List<Enemy> Foes { get; private set; }
+
+        [JsonProperty("Enemies")]
+        private string[] FoeNames { get; set; }
+
+
+        public Room(string name, string description, Dictionary<Directions, string> neighborNames, string[] inventoryNames, string[] foeNames)
         {
             Name = name;
             Description = description;
             Neighbors = new Dictionary<Directions, Room>();
             NeighborNames = neighborNames ?? new Dictionary<Directions, string>();
             InventoryNames = inventoryNames ?? new string[0];
+            FoeNames = foeNames ?? new string[0];
         }
 
         public void UpdateNeighbors(World world)
@@ -51,6 +59,16 @@ namespace Zork.Common
                 Inventory.Add(world.ItemsByName[inventoryName]);
             }
             InventoryNames = null;
+        }
+
+        public void UpdateEnemies(World world)
+        {
+            Foes = new List<Enemy>();
+            foreach (var foeName in FoeNames)
+            {
+                Foes.Add(world.EnemiesByName[foeName]);
+            }
+            FoeNames = null;
         }
 
         public override string ToString()

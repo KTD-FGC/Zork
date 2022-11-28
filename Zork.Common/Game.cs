@@ -157,6 +157,10 @@ namespace Zork.Common
             {
                 Output.WriteLine(item.LookDescription);
             }
+            foreach (Enemy enemy in Player.CurrentRoom.Foes)
+            {
+                Output.WriteLine(enemy.LivingDescription);
+            }
         }
 
         private static Commands ToCommand(string commandString) => Enum.TryParse(commandString, true, out Commands result) ? result : Commands.UNKNOWN;
