@@ -63,9 +63,15 @@ namespace Zork.Common
             }
 
             Item theItem = null;
+            Enemy theEnemy = null;
             if (subject != null && World.ItemsByName.TryGetValue(subject, out Item i))
             {
                 theItem = i;
+            }
+
+            if (subject != null && World.EnemiesByName.TryGetValue(subject, out Enemy e))
+            {
+                theEnemy = e;
             }
             StringBuilder sb = new StringBuilder();
             switch (command)
@@ -85,6 +91,7 @@ namespace Zork.Common
                     if (Player.Move(direction))
                     {
                         Output.WriteLine($"You moved {command}.\n");
+                        
                     }
                     else
                     {
@@ -133,6 +140,16 @@ namespace Zork.Common
                         Output.WriteLine("You are empty handed.\n");
                     }
                     break;
+                case Commands.ATTACK:
+                    if (subject == null)
+                    {
+                        Output.WriteLine("What do you want to attack");
+                    }
+                    else
+                    {
+                        Output.WriteLine(Player.AttackEnemy(theEnemy));
+                    }
+                    break;
                 default:
                     Output.WriteLine("Unknown command.\n");
                     break;
@@ -147,6 +164,7 @@ namespace Zork.Common
             if (ReferenceEquals(PreviousRoom, Player.CurrentRoom) == false)
             {
                 Look();
+                Encounter();
             }
         }
 
@@ -166,6 +184,28 @@ namespace Zork.Common
                 else if (enemy.IsAlive == false)
                 {
                     Output.WriteLine(enemy.DeadDescription);
+                }
+            }
+        }
+
+        private void Encounter()
+        {
+            if (Player.CurrentRoom.Foes.Count > 0)
+            {
+                foreach (Enemy enemy in Player.CurrentRoom.Foes)
+                {
+                    if (enemy.IsAlive == true)
+                    {
+                        if (Player.CurrentRoom != PreviousRoom)
+                        {
+                            Output.WriteLine("You could not escape and you were killed.");
+                            IsRunning = false;
+                        }
+                    }
+                    else if (enemy.IsAlive == false)
+                    {
+
+                    }
                 }
             }
         }

@@ -26,6 +26,8 @@ namespace Zork.Common
 
         public List<Item> Inventory { get; }
 
+        public List<Enemy> Enemies { get; }
+
         public int Moves
         {
             get
@@ -72,6 +74,7 @@ namespace Zork.Common
             _world = world;
             LocationName = startingLocation;
             Inventory = new List<Item>();
+            Enemies = new List<Enemy>();
         }
 
         public bool Move(Directions direction)
@@ -117,6 +120,32 @@ namespace Zork.Common
                 Inventory.Remove(item);
                 CurrentRoom.Inventory.Add(item);
                 return "Dropped.\n";
+            }
+        }
+
+        public string AttackEnemy(Enemy enemy)
+        {
+            Item sword = _world.ItemsByName.GetValueOrDefault("Sword");
+            if (CurrentRoom.Foes.Count == 0)
+            {
+                return "There is nothing here.\n";
+            }
+            else if (enemy == null)
+            {
+                return "You cannot see that.\n";
+            }
+            else if (!Inventory.Contains(sword))
+            {
+                return "You have no weapon.\n";
+            }
+            else if (enemy.IsAlive == false)
+            {
+                return "That enemy is already dead";
+            }
+            else
+            {
+                enemy.IsAlive = false;
+                return $"You attacked the enemy.";
             }
         }
 
