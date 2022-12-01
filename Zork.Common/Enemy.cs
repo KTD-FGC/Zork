@@ -18,6 +18,8 @@ namespace Zork.Common
 
         public bool IsAlive { get; set; }
 
+        public bool Encounter { get; set; }
+
         public Enemy (string name, string livingDescription, string deadDescription, string pkText, string ekText, bool isAlive)
         {
             Name = name;

@@ -196,7 +196,7 @@ namespace Zork.Common
                 {
                     if (enemy.IsAlive == true)
                     {
-                        if (Player.CurrentRoom != PreviousRoom)
+                        if ()
                         {
                             Output.WriteLine("You could not escape and you were killed.");
                             IsRunning = false;
