@@ -28,6 +28,8 @@ namespace Zork.Common
             Player = new Player(World, startingLocation);
         }
 
+        private int timer = 3;
+
         public void Run(IInputService input, IOutputService output)
         {
             Output = output ?? throw new ArgumentNullException(nameof(output));
@@ -166,6 +168,12 @@ namespace Zork.Common
                 Look();
                 Encounter();
             }
+
+            if (ReferenceEquals(Player.Moves, Player.Moves) == false && Player.CurrentRoom.Foes.Count > 0)
+            {
+                EnemyAttack();
+                timer--;
+            }
         }
 
         private void Look()
@@ -190,22 +198,27 @@ namespace Zork.Common
 
         private void Encounter()
         {
-            if (Player.CurrentRoom.Foes.Count > 0)
+            if (Player.CurrentRoom != PreviousRoom && PreviousRoom.Foes.Count > 0)
             {
-                foreach (Enemy enemy in Player.CurrentRoom.Foes)
+                foreach (Enemy enemy in PreviousRoom.Foes)
                 {
                     if (enemy.IsAlive == true)
                     {
-                        if ()
-                        {
-                            Output.WriteLine("You could not escape and you were killed.");
-                            IsRunning = false;
-                        }
+                        Output.WriteLine("You could not escape and you were killed.");
+                        IsRunning = false;
                     }
-                    else if (enemy.IsAlive == false)
-                    {
+                }
+            }
+        }
 
-                    }
+        private void EnemyAttack()
+        {
+            foreach (Enemy enemy in Player.CurrentRoom.Foes)
+            {
+                if (timer == 0 && enemy.IsAlive == true)
+                {
+                    Output.WriteLine("You were slain by the enemy.");
+                    IsRunning = false;
                 }
             }
         }

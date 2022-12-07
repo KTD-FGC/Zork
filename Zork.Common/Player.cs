@@ -82,10 +82,6 @@ namespace Zork.Common
             bool didMove = CurrentRoom.Neighbors.TryGetValue(direction, out Room neighbor);
             if (didMove)
             {
-                if (CurrentRoom.Foes.Count > 0)
-                {
-                    
-                }
                 CurrentRoom = neighbor;
             }
 
